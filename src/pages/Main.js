@@ -1,14 +1,17 @@
 import React, {useEffect, useState} from 'react';
+import io from 'socket.io-client';
 import AsyncStorage from '@react-native-community/async-storage';
 import {SafeAreaView, Text, Image, StyleSheet, View, TouchableOpacity} from 'react-native';
 import api from '../services/api';
 import icon from '../images/icon.png';
 import like from '../images/like.png';
 import deslike from '../images/deslike.png';
+import matchwhite from '../images/matchwhite.png';
 
 export default function Main({ navigation }){
     const id = navigation.getParam('user');
-    const [users, setUsers] = useState([]); 
+    const [users, setUsers] = useState([]);
+    const [matchDev, setMatchDev] = useState(true);
 
     console.log(id);
 
@@ -23,6 +26,19 @@ export default function Main({ navigation }){
         }
         loadUsers(); 
     }, [id]);
+
+
+    useEffect(() =>{ 
+        const socket = io('http://192.168.0.31:3333', {
+            query: {user: id} 
+        });
+
+        socket.on('match', dev =>{
+           setMatchDev(dev); 
+        })
+    }, [id]); 
+
+
 
     async function handleDeslike(){
         const [user, ...rest] = users;
@@ -82,6 +98,18 @@ export default function Main({ navigation }){
                     <Image source={like}></Image>
                 </TouchableOpacity>
             </View>
+            )}
+
+            {matchDev && (
+                <View style={styles.matchContainer}>
+                    <Image source={matchwhite} style={styles.matchWhite}></Image>
+                    <Image style={styles.matchAvatar} source={{uri: "https://avatars2.githubusercontent.com/u/2254731?v=4"}}></Image>
+                    <Text style={styles.matchName}>Diego Fernandes</Text>
+                    <Text style={styles.matchBio}>CTO na @Rocketseat. Apaixonado pelas melhores tecnologias de desenvolvimento web e mobile.</Text>
+                    <TouchableOpacity onPress={() => setMatchDev(null)}>
+                        <Text style={styles.closeMatch}>Fechar</Text>
+                    </TouchableOpacity>
+                </View>
             )}
 
         </SafeAreaView>
@@ -188,4 +216,32 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 14,
     },
+
+    matchContainer:{
+        ...StyleSheet.absoluteFillObject,
+        backgroundColor: 'rgba(0,0,0,0.8)',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
+    matchWhite:{
+        height: 80,
+        width: 310,
+    },
+
+    matchAvatar:{
+        width: 160,
+        height: 160,
+        borderRadius: 80,
+        borderWidth: 5,
+        borderColor: '#fff',
+        marginVertical: 30
+    },
+
+    matchName:{
+        fontSize: 26,
+        fontWeight: 'bold',
+        color: '#fff'
+    }
+
 });
