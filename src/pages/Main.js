@@ -11,7 +11,7 @@ import matchwhite from '../images/matchwhite.png';
 export default function Main({ navigation }){
     const id = navigation.getParam('user');
     const [users, setUsers] = useState([]);
-    const [matchDev, setMatchDev] = useState(true);
+    const [matchDev, setMatchDev] = useState(null);
 
     console.log(id);
 
@@ -103,9 +103,9 @@ export default function Main({ navigation }){
             {matchDev && (
                 <View style={styles.matchContainer}>
                     <Image source={matchwhite} style={styles.matchWhite}></Image>
-                    <Image style={styles.matchAvatar} source={{uri: "https://avatars2.githubusercontent.com/u/2254731?v=4"}}></Image>
-                    <Text style={styles.matchName}>Diego Fernandes</Text>
-                    <Text style={styles.matchBio}>CTO na @Rocketseat. Apaixonado pelas melhores tecnologias de desenvolvimento web e mobile.</Text>
+                    <Image style={styles.matchAvatar} source={{uri: matchDev.avatar}}></Image>
+                    <Text style={styles.matchName}>{matchDev.name}</Text>
+                    <Text style={styles.matchBio}>{matchDev.bio}</Text>
                     <TouchableOpacity onPress={() => setMatchDev(null)}>
                         <Text style={styles.closeMatch}>Fechar</Text>
                     </TouchableOpacity>
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
         borderColor: '#ddd',
         borderRadius: 8,
         margin: 30,
-        marginBottom: -10, //se der merda no estilo, remove isso
+        marginBottom: -10, //e
         overflow: 'hidden',
         position: 'absolute',
         top: 0,
@@ -242,6 +242,31 @@ const styles = StyleSheet.create({
         fontSize: 26,
         fontWeight: 'bold',
         color: '#fff'
+    },
+
+    matchBio:{
+        marginTop: 10,
+        fontSize: 16,
+        color: 'rgba(255,255,255,0.8)',
+        lineHeight: 24,
+        textAlign: 'center',
+        paddingHorizontal: 30,
+    },
+
+    closeMatch:{
+        width: 90,
+        height: 35,
+        fontSize: 16,
+        color: 'rgba(255,255,255,0.7)',
+        borderWidth: 3,
+        borderColor: '#df4722',
+        borderRadius: 2,
+        textAlign: 'center',
+        marginTop: 25,
+        paddingTop: 5,
+        fontWeight: 'bold',
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 
 });
