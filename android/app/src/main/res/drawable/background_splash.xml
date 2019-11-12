@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/primary"/>
+    <item 
+        android:width="200dp"
+        android:height="200dp"
+        android:drawable="@drawable/icon"
+        android:gravity="center"
+    />
+</layer-list>
+
+
+<!-- Claro, o Ape Tools lá tem a opção de gerar a splash screen em vários tamanhos. Com essa imagem em cada pasta drawable você pode referenciá-la dentro do arquivo de configuração da splash screen no lugar que referenciamos o ícone dessa forma:
+
+ ******** para gerar splash screen através de uma imagem pronta *******
+<item>
+  <bitmap
+    android:gravity="fill"
+    android:src="@drawable/nomeDoArquivoDeSplash"/>
+</item>
+
+-->
