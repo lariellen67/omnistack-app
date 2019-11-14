@@ -7,6 +7,7 @@ import icon from '../images/icon.png';
 import like from '../images/like.png';
 import deslike from '../images/deslike.png';
 import matchwhite from '../images/matchwhite.png';
+import { config } from '../config';
 
 export default function Main({ navigation }){
     const id = navigation.getParam('user');
@@ -29,7 +30,7 @@ export default function Main({ navigation }){
 
 
     useEffect(() =>{ 
-        const socket = io('http://192.168.0.31:3333', {
+        const socket = io(config.url, {
             query: {user: id} 
         });
 
